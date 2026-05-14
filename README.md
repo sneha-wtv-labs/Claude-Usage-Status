@@ -22,15 +22,14 @@ A lightweight browser extension designed to enhance the Claude.ai experience by 
 3. Open your browser's Extensions page:
    - **Chrome/Edge/Brave**: `chrome://extensions`
 4. Enable **Developer Mode** (usually a toggle in the top-right).
-5. Click **Load Unpacked** and select the `claude_extension` folder from this repository.
+5. Click **Load Unpacked** and select the root folder of this project (the one containing `manifest.json`).
 6. Refresh your Claude.ai tab to see the changes.
 
 ## 📁 Project Structure
-- `claude_extension/`: Core extension files.
-  - `manifest.json`: Extension metadata and permissions.
-  - `background.js`: Handles daily background refresh routines.
-  - `content.js`: Injects the UI elements into Claude.ai.
-  - `style.css`: Modern styling for the usage dashboard.
+- `manifest.json`: Extension metadata and permissions.
+- `background.js`: Handles daily background refresh routines.
+- `content.js`: Injects the UI elements into Claude.ai.
+- `style.css`: Modern styling for the usage dashboard.
 - `LICENSE`: MIT License information.
 - `README.md`: Documentation and setup guide.
 
