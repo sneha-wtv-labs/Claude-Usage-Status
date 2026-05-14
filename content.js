@@ -136,14 +136,14 @@
   setInterval(render, POLL_INTERVAL);
 
   // Use MutationObserver to handle dynamic page changes (SPA)
-  const observer = new MutationObserver((mutations) => {
-    // If the usage container isn't in the DOM, try to re-render
+  const observer = new MutationObserver(() => {
     if (!document.querySelector('.cl_usage_container')) {
       render();
     }
   });
 
-  observer.observe(document.body, {
+  // Observe documentElement because body might not exist yet at document_start
+  observer.observe(document.documentElement, {
     childList: true,
     subtree: true
   });
