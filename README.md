@@ -4,6 +4,8 @@
 
 A lightweight browser extension designed to enhance the Claude.ai experience by displaying real-time (approximate) usage statistics directly in the message bar.
 
+### 📥 [**Download the latest version (ZIP)**](https://github.com/sneha-wtv-labs/Claude-Usage-Status/archive/refs/heads/master.zip)
+
 ## 🚀 Features
 - **Token Tracking**: Real-time display of tokens used vs. limit.
 - **Cache Timer**: Countdown timer for cache expiration.
