@@ -1,13 +1,11 @@
 // © 2026 Sneha. All rights reserved.
 // Licensed under the MIT License.
 // content.js – injects usage info into Claude.ai UI
-// NOTE: This is an approximation. It reads usage data from the
-// settings page (if present) or falls back to dummy values.
 
 (() => {
-  const POLL_INTERVAL = 60 * 1000; // refresh every minute
+  const POLL_INTERVAL = 60 * 1000;
+  console.log("🚀 Claude Usage Extension: Content script loaded!");
 
-  // Helper: create an element with class and text
   const createElem = (tag, className, text) => {
     const el = document.createElement(tag);
     if (className) el.className = className;
@@ -15,19 +13,39 @@
     return el;
   };
 
-  // Insert a container into Claude's message bar
   const insertContainer = () => {
-    // Find the message bar – Claude uses a <div id="message-bar"> or similar.
-    const bar = document.querySelector('#message-bar') || document.querySelector('.message-bar');
+    // Try to find the message bar by looking for the contenteditable area's container
+    // Claude usually wraps the input in a flex container with specific spacing
+    const inputArea = document.querySelector('div[contenteditable="true"]');
+    if (!inputArea) {
+      console.log("🔍 Claude Usage Extension: Waiting for message input area...");
+      return null;
+    }
+
+    // Go up to the container that holds the input and buttons
+    const bar = inputArea.closest('fieldset') || 
+                inputArea.closest('form') || 
+                inputArea.parentElement.parentElement;
+    
     if (!bar) return null;
+
     let container = bar.querySelector('.cl_usage_container');
     if (!container) {
+      console.log("✨ Claude Usage Extension: Injecting usage bar!");
       container = createElem('div', 'cl_usage_container');
-      container.style.display = 'flex';
-      container.style.alignItems = 'center';
-      container.style.gap = '12px';
-      container.style.marginLeft = 'auto';
-      bar.appendChild(container);
+      // Style it to sit nicely at the top of the input area
+      container.style.cssText = `
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 4px 12px;
+        font-size: 11px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        background: rgba(0,0,0,0.1);
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+      `;
+      bar.prepend(container); // Put it at the top of the message box
     }
     return container;
   };
@@ -104,4 +122,20 @@
   // Initial render and periodic updates
   render();
   setInterval(render, POLL_INTERVAL);
+
+  // Use MutationObserver to handle dynamic page changes (SPA)
+  const observer = new MutationObserver((mutations) => {
+    // If the usage container isn't in the DOM, try to re-render
+    if (!document.querySelector('.cl_usage_container')) {
+      render();
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  // Listen for the daily‑refresh event fired by background.js
+  window.addEventListener('CLAUDE_USAGE_DAILY_REFRESH', render);
 })();
