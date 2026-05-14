@@ -35,15 +35,17 @@
       container = createElem('div', 'cl_usage_container');
       // Style it to sit nicely at the top of the input area
       container.style.cssText = `
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 4px 12px;
-        font-size: 11px;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        background: rgba(0,0,0,0.1);
-        width: 100%;
-        border-radius: 8px 8px 0 0;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+        gap: 6px !important;
+        padding: 10px 16px !important;
+        font-size: 11px !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        background: rgba(0,0,0,0.1) !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       `;
       bar.prepend(container); // Put it at the top of the message box
     }
