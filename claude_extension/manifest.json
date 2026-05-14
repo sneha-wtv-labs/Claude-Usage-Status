@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Claude Usage Info",
+  "description": "Shows token count, cache timer, usage bar on Claude.ai message bar.",
+  "version": "0.1",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": ["*://*.claude.ai/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [{
+    "matches": ["*://*.claude.ai/*"],
+    "js": ["content.js"],
+    "css": ["style.css"],
+    "run_at": "document_idle"
+  }],
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
