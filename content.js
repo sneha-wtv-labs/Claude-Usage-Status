@@ -92,31 +92,43 @@
     };
   };
 
+  const createBarRow = (label, current, limit, colorClass) => {
+    const row = createElem('div', 'cl_row');
+    const labelEl = createElem('div', 'cl_label', label);
+    
+    const barBg = createElem('div', 'cl_bar_bg');
+    const barFill = createElem('div', `cl_bar_fill ${colorClass}`);
+    const pct = Math.min(Math.round((current / limit) * 100), 100);
+    barFill.style.width = `${pct}%`;
+    barBg.appendChild(barFill);
+    
+    const pctLabel = createElem('div', 'cl_pct', `${pct}%`);
+    
+    row.appendChild(labelEl);
+    row.appendChild(barBg);
+    row.appendChild(pctLabel);
+    return row;
+  };
+
   const render = async () => {
     const container = insertContainer();
     if (!container) return;
     const data = await fetchUsage();
     container.innerHTML = '';
 
-    // Token bar
-    const tokenBar = createElem('div', 'cl_token_bar');
-    tokenBar.textContent = `🪙 ${data.tokensUsed}/${data.tokenLimit}`;
-    container.appendChild(tokenBar);
+    // Header with Model and Cache
+    const header = createElem('div', 'cl_row');
+    const badge = createElem('div', 'cl_badge', `🤖 ${data.model}`);
+    const timer = createElem('div', 'cl_label', `⏱️ ${data.cacheTimer}s`);
+    timer.style.textAlign = 'right';
+    header.appendChild(badge);
+    header.appendChild(timer);
+    container.appendChild(header);
 
-    // Cache timer
-    const cache = createElem('div', 'cl_cache_timer');
-    cache.textContent = `⏱️ ${data.cacheTimer}s`;
-    container.appendChild(cache);
-
-    // Session / weekly usage
-    const usage = createElem('div', 'cl_usage_summary');
-    usage.textContent = `📊 Session ${data.sessionUsed}/${data.sessionLimit} | Weekly ${data.weeklyUsed}/${data.weeklyLimit}`;
-    container.appendChild(usage);
-
-    // Model badge
-    const model = createElem('div', 'cl_model_badge');
-    model.textContent = `🤖 ${data.model}`;
-    container.appendChild(model);
+    // Progress Rows
+    container.appendChild(createBarRow('Tokens', data.tokensUsed, data.tokenLimit, 'cl_token_fill'));
+    container.appendChild(createBarRow('Session', data.sessionUsed, data.sessionLimit, 'cl_session_fill'));
+    container.appendChild(createBarRow('Weekly', data.weeklyUsed, data.weeklyLimit, 'cl_weekly_fill'));
   };
 
   // Initial render and periodic updates
