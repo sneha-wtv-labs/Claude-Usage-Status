@@ -3,6 +3,8 @@
   "name": "Claude Usage Info",
   "description": "Shows token count, cache timer, usage bar on Claude.ai message bar.",
   "version": "0.1",
+  "author": "Sneha",
+  "homepage_url": "https://github.com/sneha/claude-usage-extension",
   "permissions": ["storage", "alarms"],
   "host_permissions": ["*://*.claude.ai/*"],
   "background": {

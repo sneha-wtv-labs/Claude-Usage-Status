@@ -1,3 +1,5 @@
+// © 2026 Sneha. All rights reserved.
+// Licensed under the MIT License.
 // content.js – injects usage info into Claude.ai UI
 // NOTE: This is an approximation. It reads usage data from the
 // settings page (if present) or falls back to dummy values.
